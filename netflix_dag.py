@@ -2,6 +2,7 @@ from airflow import DAG
 from airflow.operators.python import PythonOperator
 from datetime import datetime, timedelta
 import pandas as pd
+import os
 import boto3
 from io import BytesIO
 from sqlalchemy import create_engine, text
@@ -10,7 +11,9 @@ from sqlalchemy import create_engine, text
 MINIO_ENDPOINT = "http://minio:9000"
 S3_KEY = "bx3htBVoAFJ7ZOn8B5bO"
 S3_SECRET = "cLZjbEDXtXpb7Xql2FBDFQi47EZChmih2aWyWDmV"
-DB_URL = "postgresql://postgres:********@postgres_container:5432/netflix_db"
+# Fetch the password from the environment
+db_pass = os.getenv("DB_PASSWORD", "default_pass")
+DB_URL = f"postgresql://postgres:{db_pass}@postgres_container:5432/netflix_db"
 
 # --- ETL LOGIC ---
 def run_netflix_etl():
