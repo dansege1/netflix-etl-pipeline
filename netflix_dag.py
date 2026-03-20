@@ -10,7 +10,7 @@ from sqlalchemy import create_engine, text
 MINIO_ENDPOINT = "http://minio:9000"
 S3_KEY = "bx3htBVoAFJ7ZOn8B5bO"
 S3_SECRET = "cLZjbEDXtXpb7Xql2FBDFQi47EZChmih2aWyWDmV"
-DB_URL = "postgresql://postgres:changeme@postgres_container:5432/netflix_db"
+DB_URL = "postgresql://postgres:********@postgres_container:5432/netflix_db"
 
 # --- ETL LOGIC ---
 def run_netflix_etl():
