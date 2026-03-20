@@ -23,6 +23,28 @@ def run_netflix_etl():
     # 2. Transform
     df['date_added'] = pd.to_datetime(df['date_added'].str.strip())
     df[['director', 'cast', 'country']] = df[['director', 'cast', 'country']].fillna('Unknown')
+
+    
+    def validate_netflix_data(df):
+    """
+    Professional Data Quality Checks
+    """
+    #  Check if the dataframe is empty
+    if df.empty:
+        raise ValueError("Data Quality Check Failed: The source file is empty!")
+
+    #  Check for duplicate show_ids
+    if df['show_id'].duplicated().any():
+        raise ValueError("Data Quality Check Failed: Duplicate show_ids detected!")
+
+    # Logic Check: Release year shouldn't be in the future
+    current_year = 2026 
+    if (df['release_year'] > current_year).any():
+        print("Warning: Some titles have future release years. Filtering them out.")
+        df = df[df['release_year'] <= current_year]
+
+    print("Data Quality Checks Passed! ✅")
+    return df
     
     # 3. Load
     engine = create_engine(DB_URL)
